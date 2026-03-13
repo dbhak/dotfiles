@@ -26,6 +26,11 @@
     # For my llm fix:
     pkgs.opencode
     pkgs.hello
+
+    # For zsa keyboards:
+    pkgs.keymapp
+    pkgs.zsa-udev-rules
+    pkgs.wally-cli
   ];
 
   # Simple NTFS mount configuration
@@ -98,6 +103,8 @@
 
   hardware = {
     graphics.enable = true;
+
+    keyboard.zsa.enable = true;
 
     nvidia = {
       # Enable the Nvidia settings menu,
