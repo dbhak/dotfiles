@@ -46,6 +46,11 @@
     options = ["defaults" "noatime"];
   };
 
+  fileSystems."/mnt/2tb" = {
+    device = "/dev/disk/by-uuid/3E480BA4480B59D3";
+    fsType = "ntfs3";
+  };
+
   programs = {
     xwayland = {
       enable = true;
