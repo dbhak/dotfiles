@@ -47,8 +47,9 @@
   };
 
   fileSystems."/mnt/2tb" = {
-    device = "/dev/disk/by-uuid/3E480BA4480B59D3";
-    fsType = "ntfs3";
+    device = "/dev/disk/by-uuid/2f873ce6-7607-48c1-acad-57652f380f4a";
+    fsType = "ext4";
+    options = ["defaults" "nofail" "noatime" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=600"];
   };
 
   programs = {
