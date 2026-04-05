@@ -31,6 +31,8 @@
     pkgs.keymapp
     pkgs.zsa-udev-rules
     pkgs.wally-cli
+
+    pkgs.mpv
   ];
 
   # Simple NTFS mount configuration
