@@ -17,9 +17,10 @@ stdenv.mkDerivation rec {
 
   postPatch = ''
     substituteInPlace Makefile \
-      --replace /usr/share $out/share
-    touch pkg/lib/cockpit-po-plugin.js
-    touch dist/manifest.json
+      --replace-warn /usr/share $out/share
+    # dist/ is pre-built in the tarball; stub out node dependency resolution
+    touch package-lock.json
+    echo "" > runtime-npm-modules.txt
   '';
 
   dontBuild = true;
