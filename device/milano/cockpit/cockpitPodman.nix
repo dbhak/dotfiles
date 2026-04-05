@@ -9,21 +9,12 @@ stdenv.mkDerivation rec {
     sha256 = "00fynvy69s3h8x3pb3lr7kz502ans7mbxs8nrr25pdb5hakfnnkb";
   };
 
-  nativeBuildInputs = [
-    gettext
-  ];
-
-  makeFlags = [ "DESTDIR=$(out)" "PREFIX=" ];
-
-  postPatch = ''
-    substituteInPlace Makefile \
-      --replace-warn /usr/share $out/share
-    # dist/ is pre-built in the tarball; stub out node dependency resolution
-    touch package-lock.json
-    echo "" > runtime-npm-modules.txt
-  '';
-
   dontBuild = true;
+
+  installPhase = ''
+    mkdir -p $out/share/cockpit
+    cp -r dist $out/share/cockpit/podman
+  '';
 
   meta = with lib; {
     description = "Cockpit UI for podman containers";
