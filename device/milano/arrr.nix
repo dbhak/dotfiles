@@ -1,22 +1,17 @@
-{
-  pkgs,
-  ...
-}:
-{
-
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     libva-utils
-    radeontop 
+    radeontop
   ];
 
   users.groups.arrr = {
     gid = 995;
   };
-  users.users."ak".extraGroups = [ "arrr" ];
+  users.users."ak".extraGroups = ["arrr"];
 
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = with pkgs; [
-    vaapiVdpau
+    libva-vdpau-driver
     libvdpau-va-gl
     mesa.drivers
   ];
@@ -49,16 +44,16 @@
         "--group-add=video"
       ];
       ports = [
-          "8096:8096"
+        "8096:8096"
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
-        UMASK="002";
+        UMASK = "002";
       };
       volumes = [
-          "/config/jellyfin:/config"
-          "/data/media:/media"
+        "/config/jellyfin:/config"
+        "/data/media:/media"
       ];
       autoStart = true;
     };
@@ -71,7 +66,7 @@
       environment = {
         PUID = "1000";
         PGID = "995";
-        UMASK="002";
+        UMASK = "002";
       };
       volumes = [
         "/config/plex:/config"
@@ -85,15 +80,15 @@
       extraOptions = [
       ];
       ports = [
-          "5055:5055"
+        "5055:5055"
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
-        UMASK="002";
+        UMASK = "002";
       };
       volumes = [
-          "/config/jellyseerr:/config"
+        "/config/jellyseerr:/config"
       ];
       autoStart = true;
     };
@@ -135,8 +130,8 @@
     sabVPN = {
       image = "docker.io/binhex/arch-sabnzbdvpn:latest";
       extraOptions = [
-          "--sysctl=\"net.ipv4.conf.all.src_valid_mark=1\""
-          "--privileged=true"
+        "--sysctl=\"net.ipv4.conf.all.src_valid_mark=1\""
+        "--privileged=true"
       ];
       ports = [
         "8080:8080"
@@ -145,12 +140,12 @@
         PUID = "1000";
         PGID = "995";
         VPN_ENABLED = "yes";
-        VPN_PROV= "custom";
+        VPN_PROV = "custom";
         VPN_CLIENT = "wireguard";
         STRICT_PORT_FORWARD = "yes";
         ENABLE_PRIVOXY = "no";
         ENABLE_SOCKS = "no";
-        LAN_NETWORK="10.11.12.0/24";
+        LAN_NETWORK = "10.11.12.0/24";
       };
       volumes = [
         "/config/sabnzb:/config"
@@ -165,16 +160,16 @@
       extraOptions = [
       ];
       ports = [
-          "9696:9696"
+        "9696:9696"
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
-        UMASK="002";
-        RUN_OPTS="--ProxyConnection=10.11.12.201:8118";
+        UMASK = "002";
+        RUN_OPTS = "--ProxyConnection=10.11.12.201:8118";
       };
       volumes = [
-          "/config/prowlarr:/config"
+        "/config/prowlarr:/config"
       ];
       autoStart = true;
     };
@@ -184,7 +179,7 @@
       extraOptions = [
       ];
       ports = [
-          "8191:8191"
+        "8191:8191"
       ];
       environment = {
       };
@@ -198,19 +193,19 @@
       extraOptions = [
       ];
       ports = [
-          "7878:7878"
+        "7878:7878"
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
-        RUN_OPTS="--ProxyConnection=10.11.12.201:8118";
+        RUN_OPTS = "--ProxyConnection=10.11.12.201:8118";
       };
       volumes = [
-          # - /<host_folder_config>:/config
-          # - /<host_folder_data>:/data
+        # - /<host_folder_config>:/config
+        # - /<host_folder_data>:/data
 
-          "/config/radarr:/config"
-          "/data:/data"
+        "/config/radarr:/config"
+        "/data:/data"
       ];
       autoStart = true;
     };
@@ -220,20 +215,20 @@
       extraOptions = [
       ];
       ports = [
-          "8989:8989" # For non-SSL connections
-          # "9897:9897" # For SSL connections
+        "8989:8989" # For non-SSL connections
+        # "9897:9897" # For SSL connections
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
-        RUN_OPTS="--ProxyConnection=10.11.12.201:8118";
+        RUN_OPTS = "--ProxyConnection=10.11.12.201:8118";
       };
       volumes = [
-          # - /<host_folder_config>:/config
-          # - /<host_folder_data>:/data
+        # - /<host_folder_config>:/config
+        # - /<host_folder_data>:/data
 
-          "/config/sonarr:/config"
-          "/data:/data"
+        "/config/sonarr:/config"
+        "/data:/data"
       ];
       autoStart = true;
     };
@@ -243,25 +238,24 @@
       extraOptions = [
       ];
       ports = [
-          "6767:6767"
+        "6767:6767"
       ];
       environment = {
         PUID = "1000";
         PGID = "995";
       };
       volumes = [
-          "/config/bazarr:/config"
-          "/data:/data"
+        "/config/bazarr:/config"
+        "/data:/data"
       ];
       autoStart = true;
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 9696 8191 8989 ];
-  networking.firewall.allowedUDPPorts = [ 9696 8191 8989 ];
+  networking.firewall.allowedTCPPorts = [9696 8191 8989];
+  networking.firewall.allowedUDPPorts = [9696 8191 8989];
 
   services = {
-
     nginx.virtualHosts."jellyfin.milano.io" = {
       # addSSL = true;
       # enableACME = true;
@@ -281,29 +275,29 @@
     };
 
     nginx.virtualHosts."jellyseerr.milano.io" = {
-        # addSSL = true;
-        # enableACME = true;
-        locations."/" = {
-          proxyPass = "http://localhost:5055/";
-          proxyWebsockets = true;
-        };
+      # addSSL = true;
+      # enableACME = true;
+      locations."/" = {
+        proxyPass = "http://localhost:5055/";
+        proxyWebsockets = true;
+      };
     };
     nginx.virtualHosts."qbit.milano.io" = {
-        # addSSL = true;
-        # enableACME = true;
-        locations."/" = {
-          proxyPass = "http://localhost:8081/";
-          proxyWebsockets = true;
-        };
+      # addSSL = true;
+      # enableACME = true;
+      locations."/" = {
+        proxyPass = "http://localhost:8081/";
+        proxyWebsockets = true;
+      };
     };
 
     nginx.virtualHosts."proxy.milano.io" = {
-        # addSSL = true;
-        # enableACME = true;
-        locations."/" = {
-          proxyPass = "http://localhost:8118/";
-          proxyWebsockets = true;
-        };
+      # addSSL = true;
+      # enableACME = true;
+      locations."/" = {
+        proxyPass = "http://localhost:8118/";
+        proxyWebsockets = true;
+      };
     };
 
     nginx.virtualHosts."sonarr.milano.io" = {
@@ -326,7 +320,5 @@
         proxyWebsockets = true;
       };
     };
-
   };
-
 }
