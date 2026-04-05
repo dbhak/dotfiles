@@ -1,15 +1,9 @@
-{
-  pkgs,
-  ...
-}:
-let
-  cockpitPodman = pkgs.callPackage ./cockpitPodman.nix { };
-in
-{
-
+{pkgs, ...}: let
+  cockpitPodman = pkgs.callPackage ./cockpitPodman.nix {};
+in {
   environment.systemPackages = with pkgs; [
     cockpit # cockpit
-    cockpitPodman
+    # cockpitPodman
   ];
 
   services = {
@@ -33,6 +27,4 @@ in
       };
     };
   };
-
-
 }
