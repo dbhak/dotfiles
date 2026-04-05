@@ -1,26 +1,48 @@
-{ lib, stdenv, fetchzip, gettext, ... }:
+{ lib, stdenv, cockpit, nodejs, gettext, writeShellScriptBin, fetchFromGitHub, podman }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "cockpit-podman";
   version = "124";
 
-  src = fetchzip {
-    url = "https://github.com/cockpit-project/${pname}/releases/download/${version}/${pname}-${version}.tar.xz";
-    sha256 = "00fynvy69s3h8x3pb3lr7kz502ans7mbxs8nrr25pdb5hakfnnkb";
+  src = fetchFromGitHub {
+    owner = "cockpit-project";
+    repo = "cockpit-podman";
+    tag = finalAttrs.version;
+    hash = "sha256-20dGvEJraTxJlj5Z9HbPWtWN96XPVwbCkHGzX4uiDmk=";
+
+    fetchSubmodules = true;
+    postFetch = "cp $out/node_modules/.package-lock.json $out/package-lock.json";
   };
 
-  dontBuild = true;
+  buildInputs = [
+    nodejs
+    gettext
+    (writeShellScriptBin "git" "true")
+  ];
 
-  installPhase = ''
-    mkdir -p $out/share/cockpit
-    cp -r dist $out/share/cockpit/podman
+  cockpitSrc = cockpit.src;
+
+  postPatch = ''
+    mkdir -p pkg; cp -r $cockpitSrc/pkg/lib pkg
+    mkdir -p test; cp -r $cockpitSrc/test/common test
+
+    substituteInPlace Makefile \
+      --replace-fail '$(MAKE) package-lock.json' 'true' \
+      --replace-fail '$(COCKPIT_REPO_FILES) | tar x' "" \
+      --replace-fail '/usr/local' "$out"
+
+    substituteInPlace src/manifest.json \
+      --replace-fail '"/lib/systemd' '"/run/current-system/sw/lib/systemd'
+
+    patchShebangs build.js
   '';
 
-  meta = with lib; {
+  passthru.cockpitPath = [ podman ];
+
+  meta = {
     description = "Cockpit UI for podman containers";
-    license = licenses.lgpl21;
     homepage = "https://github.com/cockpit-project/cockpit-podman";
-    platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    platforms = lib.platforms.linux;
+    license = [ lib.licenses.lgpl21 ];
   };
-}
+})
