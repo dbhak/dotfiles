@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs, lib, ...}: let
   cockpitPodman = pkgs.callPackage ./cockpitPodman.nix {};
 in {
   environment.systemPackages = with pkgs; [
@@ -15,7 +15,7 @@ in {
       settings = {
         WebService = {
           AllowUnencrypted = true;
-          Origins = "http://10.11.12.201:9090";
+          Origins = lib.mkForce "https://localhost:9090 http://10.11.12.201:9090";
         };
       };
     };
