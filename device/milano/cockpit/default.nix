@@ -3,6 +3,7 @@
 in {
   environment.systemPackages = with pkgs; [
     cockpit # cockpit
+    sscg # certificate helper for cockpit
     # cockpitPodman
   ];
 
@@ -14,6 +15,7 @@ in {
       settings = {
         WebService = {
           AllowUnencrypted = true;
+          Origins = "http://10.11.12.201:9090";
         };
       };
     };
