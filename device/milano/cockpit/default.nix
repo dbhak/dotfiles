@@ -3,8 +3,8 @@
 in {
   environment.systemPackages = with pkgs; [
     cockpit # cockpit
-    sscg # certificate helper for cockpit
-    # cockpitPodman
+    sscg 
+    cockpitPodman
   ];
 
   services = {
