@@ -18,6 +18,14 @@
 
   hardware.enableAllFirmware = true;
 
+  boot.kernelModules = [
+    "ip_tables"
+    "iptable_filter"
+    "iptable_nat"
+    "iptable_mangle"
+    "wireguard"
+  ];
+
   systemd.tmpfiles.rules = [
     "d /config/jellyfin 0775 - arrr - -"
     "d /config/plex 0775 - arrr - -"
