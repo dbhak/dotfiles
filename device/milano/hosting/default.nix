@@ -1,12 +1,6 @@
-{
-  pkgs,
-  ...
-}:
-let
-  cockpitPodman = pkgs.callPackage ./cockpitPodman.nix { };
-in
-{
-
+{pkgs, ...}: let
+  cockpitPodman = pkgs.callPackage ./cockpitPodman.nix {};
+in {
   environment.systemPackages = with pkgs; [
   ];
 
@@ -14,7 +8,7 @@ in
     gid = 900;
   };
 
-  users.users."ak".extraGroups = [ "hosting" ];
+  users.users."ak".extraGroups = ["hosting"];
 
   systemd.tmpfiles.rules = [
     "d /config/minecraft-server 0775 - hosting - -"
@@ -25,21 +19,30 @@ in
   virtualisation.podman.dockerCompat = true;
 
   virtualisation.oci-containers.containers = {
-    minecraft-server = {
-      image = "itzg/minecraft-server";
+    # minecraft-server = {
+    #   image = "itzg/minecraft-server";
+    #   extraOptions = [
+    #   ];
+    #   ports = [
+    #       "25565:25565"
+    #   ];
+    #   environment = {
+    #     EULA = "TRUE";
+    #     MEMORY = "4G";
+    #   };
+    #   volumes = [
+    #     "/config/minecraft-server:/data"
+    #   ];
+    #   autoStart = true;
+    # };
+
+    playit-gg = {
+      image = "ghcr.io/playit-cloud/playit-agent:0.17";
       extraOptions = [
-      ];
-      ports = [
-          "25565:25565"
+        "--network=host"
       ];
       environment = {
-        EULA = "TRUE";
-        MEMORY = "4G"; 
       };
-      volumes = [
-        "/config/minecraft-server:/data"
-      ];
-      autoStart = true;
     };
   };
 }
