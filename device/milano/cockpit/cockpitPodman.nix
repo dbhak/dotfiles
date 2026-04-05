@@ -1,12 +1,12 @@
-{ lib, stdenv, fetchzip, gettext }:
+{ lib, stdenv, fetchzip, gettext, ... }:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-podman";
-  version = "94";
+  version = "124";
 
   src = fetchzip {
     url = "https://github.com/cockpit-project/${pname}/releases/download/${version}/${pname}-${version}.tar.xz";
-    sha256 = "sha256-boMOhXfhSJuskHEERBR4HEj8Aq/suJ1b7/jifuEzrjI=";
+    sha256 = "00fynvy69s3h8x3pb3lr7kz502ans7mbxs8nrr25pdb5hakfnnkb";
   };
 
   nativeBuildInputs = [
