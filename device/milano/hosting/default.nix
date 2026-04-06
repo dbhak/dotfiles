@@ -20,7 +20,7 @@ in {
 
   virtualisation.oci-containers.containers = {
     minecraft-server = {
-      image = "itzg/minecraft-server:java24";
+      image = "itzg/minecraft-server:java25";
       extraOptions = [
       ];
       ports = [
