@@ -11,7 +11,11 @@ in {
   users.users."ak".extraGroups = ["hosting"];
 
   systemd.tmpfiles.rules = [
-    "d /config/minecraft-server 0775 - hosting - -"
+    "d /config/crafty/backups 0775 - hosting - -"
+    "d /config/crafty/logs 0775 - hosting - -"
+    "d /config/crafty/servers 0775 - hosting - -"
+    "d /config/crafty/config 0775 - hosting - -"
+    "d /config/crafty/import 0775 - hosting - -"
   ];
 
   # Enable Podman
@@ -19,31 +23,25 @@ in {
   virtualisation.podman.dockerCompat = true;
 
   virtualisation.oci-containers.containers = {
-    minecraft-server = {
-      image = "itzg/minecraft-server:java25";
-      extraOptions = [
-        "--network=host"
-      ];
+    crafty = {
+      image = "arcadiatechnology/crafty-4:latest";
       ports = [
-        "25565:25565"
+        "8443:8443"
+        "8123:8123"
+        "19132:19132/udp"
+        "25500-25600:25500-25600"
       ];
       environment = {
-        EULA = "TRUE";
-        MEMORY = "4G";
+        TZ = "Etc/UTC";
       };
       volumes = [
-        "/config/minecraft-server:/data"
+        "/config/crafty/backups:/crafty/backups"
+        "/config/crafty/logs:/crafty/logs"
+        "/config/crafty/servers:/crafty/servers"
+        "/config/crafty/config:/crafty/app/config"
+        "/config/crafty/import:/crafty/import"
       ];
       autoStart = true;
     };
-
-    # playit-gg = {
-    #   image = "ghcr.io/playit-cloud/playit-agent:0.17";
-    #   extraOptions = [
-    #     "--network=host"
-    #   ];
-    #   environment = {
-    #   };
-    # };
   };
 }
