@@ -33,6 +33,9 @@
     pkgs.wally-cli
 
     pkgs.mpv
+
+    pkgs.prismlauncher
+    pkgs.javaPackages.compiler.temurin-bin.jdk-25
   ];
 
   # Simple NTFS mount configuration
