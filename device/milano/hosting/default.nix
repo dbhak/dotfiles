@@ -29,6 +29,7 @@ in {
       environment = {
         EULA = "TRUE";
         MEMORY = "4G";
+        VERSION = "1.21.4";
       };
       volumes = [
         "/config/minecraft-server:/data"
