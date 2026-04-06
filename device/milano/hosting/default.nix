@@ -20,7 +20,7 @@ in {
 
   virtualisation.oci-containers.containers = {
     minecraft-server = {
-      image = "itzg/minecraft-server";
+      image = "itzg/minecraft-server:java24";
       extraOptions = [
       ];
       ports = [
@@ -29,7 +29,6 @@ in {
       environment = {
         EULA = "TRUE";
         MEMORY = "4G";
-        VERSION = "1.21.4";
       };
       volumes = [
         "/config/minecraft-server:/data"
