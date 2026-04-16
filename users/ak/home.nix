@@ -60,6 +60,7 @@
     bitwarden-desktop
     firefox
     brave
+    mullvad-browser
     discord
 
     # Distrobox
