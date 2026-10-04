@@ -2,7 +2,6 @@
   config,
   pkgs,
   userSettings,
-  nixvim,
   ...
 }: {
   imports = [
@@ -18,7 +17,6 @@
     ../../programs/terminal
     ../../programs/devbox
     ../../programs/zoxide
-    # ../../programs/steam
     ../../programs/hyprland
   ];
 
@@ -55,12 +53,16 @@
 
     libreoffice-fresh
 
+    #r2modman to mod like thunderstore
+    r2modman
+
     spotify
     signal-desktop
     bitwarden-desktop
     firefox
     brave
     mullvad-browser
+    mullvad-vpn
     discord
 
     # Distrobox
