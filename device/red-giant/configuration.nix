@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     # /etc/nixos/hardware-configuration.nix
     ../common.nix
+    ../../programs/claude-code
   ];
 
   environment.systemPackages = [
@@ -48,18 +49,6 @@
   #   options = [ "nofail" "rw" ];
   # };
 
-  fileSystems."/mnt/speed" = {
-    device = "/dev/disk/by-uuid/6000c312-979a-4de8-ac73-7843205fd0f2";
-    fsType = "ext4";
-    options = ["defaults" "noatime"];
-  };
-
-  fileSystems."/mnt/2tb" = {
-    device = "/dev/disk/by-uuid/2f873ce6-7607-48c1-acad-57652f380f4a";
-    fsType = "ext4";
-    options = ["defaults" "nofail" "noatime" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=600"];
-  };
-
   programs = {
     xwayland = {
       enable = true;
@@ -80,6 +69,7 @@
   #  services.desktopManager.gnome.enable = true;
 
   services = {
+    mullvad-vpn.enable = true;
     displayManager = {
       defaultSession = "hyprland";
 
@@ -110,25 +100,13 @@
       #     rofi
       #   ];
       # };
-      videoDrivers = ["nvidia"];
+      videoDrivers = ["amdgpu"];
     };
   };
-  #  services.xserver.videoDrivers = ["nvidia"];
 
   hardware = {
     graphics.enable = true;
-
+    # graphics.enable32Bit = true;
     keyboard.zsa.enable = true;
-
-    nvidia = {
-      # Enable the Nvidia settings menu,
-      # accessible via `nvidia-settings`.
-      open = true;
-      nvidiaSettings = true;
-      modesetting.enable = true;
-
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.production;
-    };
   };
 }
