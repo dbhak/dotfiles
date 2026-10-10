@@ -34,6 +34,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Recommended services for noctalia-shell (bluetooth widget, upower-backed
+  # battery/brightness, power profile switching)
+  hardware.bluetooth.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
