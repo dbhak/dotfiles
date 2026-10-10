@@ -63,7 +63,7 @@
     brave
     mullvad-browser
     mullvad-vpn
-    discord
+    vesktop
 
     # Distrobox
     distrobox
