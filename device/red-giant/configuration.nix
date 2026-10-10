@@ -32,6 +32,8 @@
     pkgs.keymapp
     pkgs.zsa-udev-rules
     pkgs.wally-cli
+    
+    pkgs.teamspeak6-client
 
     pkgs.mpv
 
