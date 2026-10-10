@@ -16,7 +16,10 @@ in {
         [
           "${mod}, RETURN, exec, $terminal"
           "${mod}, Q, killactive"
-          "${mod}, D, exec, noctalia-shell ipc call launcher toggle"
+          "${mod}, D, exec, noctalia msg panel-toggle launcher"
+
+          "SUPER, G, exec, noctalia msg notification-show \"Gaming mode\" \"Enabled\""
+          "SUPER, G, submap, gaming"
 
           ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
           ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
@@ -35,6 +38,17 @@ in {
             )
             9)
         );
+    };
+
+    submaps = {
+      gaming = {
+        settings = {
+          bind = [
+            "SUPER, G, exec, noctalia msg notification-show \"Gaming mode\" \"Disabled\""
+            "SUPER, G, submap, reset"
+          ];
+        };
+      };
     };
   };
 }

@@ -8,117 +8,46 @@
   ];
 
   # configure options
+  #
+  # Schema is noctalia v5+ (config.toml, not the old settings.json shape).
+  # `bar.widgets` is a *named* bar (auto-named "widgets" since that's the
+  # table we define) - position/thickness/etc live inside it, and the old
+  # left/center/right widget groups are now start/center/end plain string
+  # arrays (no per-widget option objects). `noctalia config validate` is
+  # the source of truth if this drifts again.
   programs.noctalia = {
     enable = true;
     systemd.enable = true;
     settings = {
-      # configure noctalia here
-      bar = {
-        density = "compact";
+      bar.widgets = {
         position = "bottom";
-        showCapsule = false;
-        widgets = {
-          left = [
-            {
-              id = "ControlCenter";
-              useDistroLogo = true;
-            }
-            {
-              id = "Network";
-            }
-            {
-              id = "Bluetooth";
-            }
-          ];
-          center = [
-            {
-              hideUnoccupied = false;
-              id = "Workspace";
-              labelMode = "index";
-            }
-          ];
-          right = [
-            {
-              formatHorizontal = "HH:mm";
-              formatVertical = "HH mm";
-              id = "Clock";
-              useMonospacedFont = true;
-              usePrimaryColor = true;
-            }
-            {
-              displayMode = "onhover";
-              iconColor = "none";
-              id = "Microphone";
-              middleClickCommand = "pwvucontrol || pavucontrol";
-              textColor = "none";
-            }
-          ];
+        start = ["control-center" "network" "bluetooth"];
+        center = ["workspaces"];
+        end = ["clock" "microphone"];
+      };
+
+      theme = {
+        mode = "dark";
+        source = "wallpaper";
+        templates = {
+          enable_builtin_templates = true;
+          enable_community_templates = true;
         };
       };
-      colorSchemes = {
-        useWallpaperColors = true;
-        predefinedScheme = "Monochrome";
-        darkMode = true;
-        schedulingMode = "off";
-        manualSunrise = "06:30";
-        manualSunset = "18:30";
-        generationMethod = "faithful";
-        monitorForColors = "";
-      };
-      templates = {
-        activeTemplates = [
-          {
-            enabled = true;
-            id = "alacritty";
-          }
-          {
-            enabled = true;
-            id = "code";
-          }
-          {
-            enabled = true;
-            id = "spicetify";
-          }
-          {
-            enabled = true;
-            id = "discord";
-          }
-          {
-            enabled = true;
-            id = "cava";
-          }
-          {
-            enabled = true;
-            id = "btop";
-          }
-          {
-            enabled = true;
-            id = "gtk";
-          }
-          {
-            enabled = true;
-            id = "hyprland";
-          }
-        ];
-        enableUserTheming = false;
-      };
-      general = {
-        avatarImage = "/home/drfoobar/.face";
-        radiusRatio = 0.2;
-      };
+
       wallpaper = {
         enabled = true;
-        overviewEnabled = false;
         directory = "/home/ak/Pictures/Wallpapers";
-        automationEnabled = true;
-        wallpaperChangeMode = "random";
-        randomIntervalSec = 300;
-        transitionDuration = 1500;
+        transition_duration = 1500.0;
+        automation = {
+          enabled = true;
+          order = "random";
+          interval_seconds = 300;
+        };
       };
 
       location = {
-        monthBeforeDay = false;
-        name = "Sydney, Australia";
+        address = "Sydney, Australia";
       };
     };
     # this may also be a string or a path to a JSON file.
